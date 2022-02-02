@@ -3,6 +3,7 @@ backports.zoneinfo==0.2.1
 certifi==2021.10.8
 configparser==5.2.0
 Django==4.0.2
+django-environ==0.8.1
 django-filter==21.1
 django-minio-storage==0.3.10
 djangorestframework==3.13.1

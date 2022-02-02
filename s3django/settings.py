@@ -12,16 +12,19 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+env = environ.Env()
+env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', default='django-insecure-+8^4eu6%m-j*)*fusdlk5)7wt4zlpc#okzk*m^!-#!rn!b172(')
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -59,7 +62,7 @@ ROOT_URLCONF = 's3django.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
+        'DIRS': [BASE_DIR + '/templates']
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -89,10 +92,10 @@ WSGI_APPLICATION = 's3django.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('POSTGRES_DB', default='mini'),
-        'USER': os.environ.get('POSTGRES_USER', default='miniuser'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', default='520911'),
-        'HOST': os.environ.get('DB_HOST', default='localhost'),
+        'NAME': env('POSTGRES_DB'),
+        'USER': env('POSTGRES_USER'),
+        'PASSWORD': env('POSTGRES_PASSWORD'),
+        'HOST': env('DB_HOST'),
     }
 }
 
@@ -141,8 +144,8 @@ DEFAULT_FILE_STORAGE = "minio_storage.storage.MinioMediaStorage"
 STATICFILES_STORAGE = "minio_storage.storage.MinioStaticStorage"
 
 MINIO_STORAGE_ENDPOINT = 'localhost:9000'
-MINIO_STORAGE_ACCESS_KEY = os.environ.get('MINIO_ROOT_USER', default='minio_admin')
-MINIO_STORAGE_SECRET_KEY = os.environ.get('MINIO_ROOT_PASSWORD', default='minio_pass')
+MINIO_STORAGE_ACCESS_KEY = env('MINIO_ROOT_USER')
+MINIO_STORAGE_SECRET_KEY = env('MINIO_ROOT_PASSWORD')
 MINIO_STORAGE_USE_HTTPS = False
 MINIO_STORAGE_MEDIA_BUCKET_NAME = 'local-media'
 MINIO_STORAGE_AUTO_CREATE_MEDIA_BUCKET = True
