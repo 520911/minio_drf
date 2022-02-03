@@ -11,7 +11,7 @@ class UserSerializer(ModelSerializer):
 
 
 class FilesSerializer(ModelSerializer):
-    user = UserSerializer
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = FilesModel
