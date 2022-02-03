@@ -11,9 +11,7 @@ class UserSerializer(ModelSerializer):
 
 
 class FilesSerializer(ModelSerializer):
-    user = UserSerializer(read_only=True)
 
     class Meta:
         model = FilesModel
-        fields = ('user', 'file_path', 'create_dt')
-
+        fields = ('file_path',)
