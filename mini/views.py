@@ -31,7 +31,7 @@ class DownloadFile(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request, *args, **kwargs):
-        if {'id', 'name'}.issubset(request.data):
+        if {'name'}.issubset(request.data):
             user = self.request.user
             return JsonResponse(
                 {'Download link': settings.MINIO_STORAGE_MEDIA_URL + f'/{user.id}/{request.data["name"]}'})
